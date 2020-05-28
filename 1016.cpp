@@ -1,13 +1,32 @@
-#include<iostream>
-#include<cmath>
-long long int arr[1000001];
-using namespace std;
+#include <bits/stdc++.h>
 
+using namespace std;
+#define endl "\n"
+#define ll long long
+
+bool c[1000001];
 int main()
 {
-	long double min,max;
-    cin >> min >> max;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 
-    //100만까지 소수 구한다음에 구간을 소수로 나눠서 몫만큼 빼면 갯수임.
+    ll min,max; cin >> min >> max;
 
+    for(ll i = 2; i * i <= max; i++)
+    {
+        ll j = min / (i * i);
+        if(i * i * j != min)
+            j++;
+        for(ll k = j; i * i * k <= max; k++)
+        {
+            c[i * i * k - min] = true;
+        }
+    }
+    int cnt = 0;
+    for (int i = 0; i < max - min + 1; i++) {
+        if (!c[i])
+            cnt++;
+    }
+    cout << cnt << endl;
 
+}
