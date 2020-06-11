@@ -1,55 +1,46 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
-int arr[4000001];
-int arr2[4000001];
+int n;
+bool arr[4000002];
+
+void Eratos(){
+    if(n <= 1)
+        return;
+
+    for(int i = 2; i <= n + 1; i++)
+        arr[i] = true;
+
+    for(int i = 2; i * i <= n; i++)
+        if(arr[i])
+            for(int j = i * 2; j <= n; j += i)
+                arr[j] = false;
+
+}
 int main()
 {
-    int n; cin >> n;
-    for(int i = 1; i <= 4000000; i++)
-        arr[i] = i;
-    for(int i = 2; i <= 2000; i++)
-    {
-        if(arr[i] == 0)
-        {
-            continue;
+    cin >> n;
+    Eratos();
+
+    int p = 2; int q = 2;
+    int sum = 0; int cnt = 0;
+    while(q <= n + 1){
+        if(sum >= n){
+            sum -= p;
+            while(arr[p + 1] == 0 && p <= n + 1)
+                p++;
+            p++;
+        } 
+        else if(q == n + 1)
+            break;
+        else{
+            sum += q;
+            while(arr[q + 1] == 0 && q <= n + 1)
+                q++;
+            q++;
         }
-        for(int j = i+i; j <= 4000000; j += i)
-        {
-            arr[j] = 0;
-        }
-    }
-    int k = 1;
-    for(int i = 2; i <= 4000000; i++)
-    {
-        if(arr[i] > 0)
-        {
-            arr2[k++] = i;
-        }
-    }
-    int sum = 0,cnt = 0, i = 1;
-    int tmp = i;
-    int tmp2 = n;
-    while(tmp2--)
-    {
-        sum += arr2[i];
         if(sum == n)
-        {
-            sum = 0;
-            cnt++;
-            tmp++;
-            i = tmp;
-            continue;
-        }
-        else if(sum > n)
-        {
-            sum = 0;
-            tmp++;
-            i = tmp;
-            continue;
-        }
-        else
-            i++;
+            cnt += 1;
     }
     cout << cnt << endl;
 }
